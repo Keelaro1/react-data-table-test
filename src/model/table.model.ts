@@ -1,3 +1,5 @@
+export const ENTRIES_PER_PAGE = 50;
+
 export interface TableData {
 	readonly id: number;
 	readonly firstName: string;

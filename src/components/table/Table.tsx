@@ -1,12 +1,15 @@
-import React from 'react';
-import { TableData } from '../../model/table.model';
+import React, { memo,  useContext } from 'react';
+import { MainTableComponent } from './main-table';
+import { AppContext } from '../../App';
 
-interface TableProps {
-	readonly data: TableData;
-}
+export const TableComponent = memo(() => {
+	const { data } = useContext(AppContext);
 
-export const TableComponent = (props: TableProps) => {
-	const { data } = props;
+	return (
+		<>
+			<MainTableComponent />
+		</>
+	);
+});
 
-	return <div>{JSON.stringify(data)}</div>;
-};
+TableComponent.displayName = 'TableComponent';

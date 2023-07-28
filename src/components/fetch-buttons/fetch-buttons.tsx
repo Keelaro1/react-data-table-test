@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { memo, useCallback, useRef, useState } from 'react';
 import { TableData } from '../../model/table.model';
 import {
 	Button,
@@ -15,7 +15,7 @@ import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
 import { FetchButtonStyled } from './fetch-buttons.styled';
 
 interface FetchButtonsComponentProps {
-	readonly loadData: (data: TableData) => void;
+	readonly loadData: (data: TableData[]) => void;
 }
 
 enum OptionsIndexDataAmount {
@@ -25,7 +25,7 @@ enum OptionsIndexDataAmount {
 
 const options = ['Download small amount of data', 'Download big amount of data'];
 
-export const FetchButtonsComponent = (props: FetchButtonsComponentProps) => {
+export const FetchButtonsComponent = memo((props: FetchButtonsComponentProps) => {
 	const { loadData } = props;
 	const [open, setOpen] = useState<boolean>(false);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -115,7 +115,7 @@ export const FetchButtonsComponent = (props: FetchButtonsComponentProps) => {
 			</Popper>
 		</>
 	);
-};
+});
 
 const getFullUrl = (selectedIndex: number) => {
 	const url = 'http://www.filltext.com/';
@@ -132,3 +132,5 @@ const getFullUrl = (selectedIndex: number) => {
 			return;
 	}
 };
+
+FetchButtonsComponent.displayName = 'FetchButtonsComponent';
