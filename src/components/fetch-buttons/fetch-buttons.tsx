@@ -1,7 +1,18 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { TableData } from '../../model/table.model';
-import { Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
+import {
+	Button,
+	ButtonGroup,
+	CircularProgress,
+	ClickAwayListener,
+	Grow,
+	MenuItem,
+	MenuList,
+	Paper,
+	Popper,
+} from '@mui/material';
 import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
+import { FetchButtonStyled } from './fetch-buttons.styled';
 
 interface FetchButtonsComponentProps {
 	readonly loadData: (data: TableData) => void;
@@ -56,7 +67,9 @@ export const FetchButtonsComponent = (props: FetchButtonsComponentProps) => {
 	return (
 		<>
 			<ButtonGroup disabled={isFetching} variant="contained" ref={anchorRef} aria-label="split button">
-				<Button onClick={handleClick}>{options[selectedIndex]}</Button>
+				<FetchButtonStyled onClick={handleClick}>
+					{isFetching ? <CircularProgress size={20} /> : options[selectedIndex]}
+				</FetchButtonStyled>
 				<Button
 					size="small"
 					aria-controls={open ? 'split-button-menu' : undefined}

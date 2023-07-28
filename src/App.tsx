@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { TableData } from './model/table.model';
-import { TableComponent } from './components/table/Table';
-import { FetchButtonsComponent } from './components/fetch-buttons/FetchButtons';
+import { FetchButtonsComponent } from './components/fetch-buttons/fetch-buttons';
+import { TableComponent } from './components/table/table';
 
 const App = () => {
 	const [data, setData] = useState<TableData | null>(null);
