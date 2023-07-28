@@ -1,4 +1,4 @@
-export const ENTRIES_PER_PAGE = 50;
+export const ENTRIES_PER_PAGE = 10;
 
 export interface TableData {
 	readonly id: number;

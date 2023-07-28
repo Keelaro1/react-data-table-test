@@ -4,7 +4,7 @@ import { FetchButtonsComponent } from './components/fetch-buttons/fetch-buttons'
 import { TableComponent } from './components/table/table';
 
 interface AppContextType {
-	data: TableData[];
+	readonly data: TableData[];
 }
 
 export const AppContext = React.createContext<AppContextType>({ data: [] });

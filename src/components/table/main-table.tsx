@@ -1,10 +1,21 @@
 import React, { memo, useContext, useMemo } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { AppContext } from '../../App';
+import { ENTRIES_PER_PAGE } from '../../model/table.model';
 
-export const MainTableComponent = memo(() => {
+interface MainTableComponentProps {
+	readonly currentPage: number;
+}
+
+export const MainTableComponent = memo((props: MainTableComponentProps) => {
 	const { data } = useContext(AppContext);
+	const { currentPage } = props;
 	const headers = useMemo(() => Object.keys((({ description, address, ...rest }) => ({ ...rest }))(data[0])), [data]);
+	const dataToShow = useMemo(() => {
+		const start = currentPage * ENTRIES_PER_PAGE;
+		const end = start + ENTRIES_PER_PAGE;
+		return data.slice(start, end);
+	}, [currentPage, data]);
 
 	return (
 		<TableContainer sx={{ maxWidth: 800 }} component={Paper}>
@@ -19,7 +30,7 @@ export const MainTableComponent = memo(() => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{data.map(row => (
+					{dataToShow.map(row => (
 						<TableRow
 							key={row.id + row.description}
 							sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
