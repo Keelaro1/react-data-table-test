@@ -77,7 +77,7 @@ export const FetchButtonsComponent = memo((props: FetchButtonsComponentProps) =>
 					aria-label="select merge strategy"
 					aria-haspopup="menu"
 					onClick={handleToggle}>
-					<ArrowIcon />
+					<ArrowIcon height="24px" width="24px" />
 				</Button>
 			</ButtonGroup>
 			<Popper
