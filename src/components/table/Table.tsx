@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useState } from 'react';
 import { MainTableComponent } from './main-table';
-import { TablePaginationComponent } from './table-pagination';
+import { TablePaginationComponent } from './table-pagination/table-pagination';
 
 export const DEFAULT_START_PAGE = 0;
 

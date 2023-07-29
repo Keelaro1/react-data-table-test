@@ -10,7 +10,9 @@ interface MainTableComponentProps {
 export const MainTableComponent = memo((props: MainTableComponentProps) => {
 	const { data } = useContext(AppContext);
 	const { currentPage } = props;
+
 	const headers = useMemo(() => Object.keys((({ description, address, ...rest }) => ({ ...rest }))(data[0])), [data]);
+	
 	const dataToShow = useMemo(() => {
 		const start = currentPage * ENTRIES_PER_PAGE;
 		const end = start + ENTRIES_PER_PAGE;
