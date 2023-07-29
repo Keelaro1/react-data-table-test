@@ -14,7 +14,7 @@ export const TablePaginationComponent = memo((props: TablePaginationComponentPro
 	const { changePage, currentPage, currentData } = props;
 	const { data } = useContext(AppContext);
 	const [showPageSelector, setShowSelector] = useState<boolean>(false);
-	const [anchorEl, setAnchorEl] = useState<any | null>(null);
+	const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
 	const pages = useMemo(() => Math.ceil(currentData.length / ENTRIES_PER_PAGE), [currentData]);
 

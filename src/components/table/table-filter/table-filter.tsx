@@ -18,25 +18,35 @@ export const TableFilter = memo((props: TableFilterProps) => {
 			return;
 		}
 		const filteredData = data.filter((tableItem: TableData) => {
-			let foundAnyMatch = false;
+			let isFoundRowMatch = false;
 			Object.values(tableItem).forEach((val: string) => {
 				const strValue = val.toString().toLowerCase().trim();
-				if (strValue.includes(inputValue.toLowerCase().trim())) {
-					foundAnyMatch = true;
+				const inputStrValue = inputValue.toString().toLowerCase().trim();
+				if (strValue.includes(inputStrValue)) {
+					isFoundRowMatch = true;
 				}
 			});
-			if (foundAnyMatch) {
-				return tableItem;
-			}
+			return isFoundRowMatch && tableItem;
 		});
 		changeData(filteredData);
+		setInputValue('');
 	}, [changeData, inputValue, data]);
 
 	const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value), []);
 
+	const onFilterKeyUpHandler = useCallback(
+		(e: React.KeyboardEvent<HTMLInputElement>) => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				onTableFilterHandler();
+			}
+		},
+		[onTableFilterHandler],
+	);
+
 	return (
 		<Container maxWidth="sm" sx={{ marginLeft: '0' }}>
-			<Input onChange={onChangeHandler} value={inputValue} />
+			<Input onKeyUp={onFilterKeyUpHandler} onChange={onChangeHandler} value={inputValue} />
 			<Button onClick={onTableFilterHandler}>Filter</Button>
 		</Container>
 	);

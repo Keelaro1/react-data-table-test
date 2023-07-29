@@ -7,6 +7,7 @@ import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
 import { TableFilter } from './table-filter/table-filter';
 import { TableWrapper } from './table.styled';
 import { TablePaginationComponent } from './table-pagination/table-pagination';
+import { TableInfoBox } from './table-info-box';
 
 interface MainTableComponentProps {
 	readonly currentPage: number;
@@ -21,7 +22,12 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 	const [currentSortingHeader, setCurrentSortingHeader] = useState<string | null>(null);
 	const [currentSortingOrder, setCurrentSortingOrder] = useState<string | null>(null);
 
-	const headers = useMemo(() => Object.keys((({ description, address, ...rest }) => ({ ...rest }))(data[0])), [data]);
+	const [rowInfoSelected, setRowInfoSelected] = useState<TableData | null>(null);
+
+	const headers = useMemo(
+		() => Object.keys((({ description: _, address: __, ...rest }) => ({ ...rest }))(data[0])),
+		[data],
+	);
 
 	useEffect(() => setCurrentData(data), [data]);
 
@@ -47,60 +53,70 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 
 	const changeData = useCallback((data: TableData[]) => setCurrentData(data), []);
 
+	const onTableRowClickHandler = useCallback((row: TableData) => setRowInfoSelected(row), []);
+
 	return (
-		<TableWrapper>
-			<TableContainer sx={{ maxWidth: 800 }} component={Paper}>
-				<Table aria-label="simple table">
-					<TableHead>
-						<TableRow>
-							{headers.map(header => (
-								<TableCell
-									style={{ cursor: 'pointer', userSelect: 'none', width: 220 }}
-									onClick={_ => onHeaderClickSortingHandler(header)}
-									size={'small'}
-									key={header}
-									align="left">
-									{header}
-									{header === currentSortingHeader && (
-										<ArrowIcon
-											height="24px"
-											width="24px"
-											fill="#1976d2"
-											stroke="#1976d2"
-											style={{
-												position: 'absolute',
-												transform: `rotate${
-													currentSortingOrder === SortingOrder.ASCENDING
-														? '(180deg)'
-														: '(0deg)'
-												}`,
-											}}
-										/>
-									)}
-								</TableCell>
-							))}
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{dataToShow.map(row => (
-							<TableRow
-								key={row.id + row.description}
-								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-								<TableCell component="th" scope="row">
-									{row.id}
-								</TableCell>
-								<TableCell align="left">{row.firstName}</TableCell>
-								<TableCell align="left">{row.lastName}</TableCell>
-								<TableCell align="left">{row.email}</TableCell>
-								<TableCell align="left">{row.phone}</TableCell>
+		<>
+			<TableWrapper>
+				<TableContainer sx={{ maxWidth: 800 }} component={Paper}>
+					<Table aria-label="simple table">
+						<TableHead>
+							<TableRow>
+								{headers.map(header => (
+									<TableCell
+										style={{ cursor: 'pointer', userSelect: 'none', width: 220 }}
+										onClick={_ => onHeaderClickSortingHandler(header)}
+										size={'small'}
+										key={header}
+										align="left">
+										{header}
+										{header === currentSortingHeader && (
+											<ArrowIcon
+												height="24px"
+												width="24px"
+												fill="#1976d2"
+												stroke="#1976d2"
+												style={{
+													position: 'absolute',
+													transform: `rotate${
+														currentSortingOrder === SortingOrder.ASCENDING
+															? '(180deg)'
+															: '(0deg)'
+													}`,
+												}}
+											/>
+										)}
+									</TableCell>
+								))}
 							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-				<TablePaginationComponent currentData={currentData} changePage={changePage} currentPage={currentPage} />
-			</TableContainer>
-			<TableFilter changeData={changeData} />
-		</TableWrapper>
+						</TableHead>
+						<TableBody>
+							{dataToShow.map(row => (
+								<TableRow
+									onClick={() => onTableRowClickHandler(row)}
+									key={row.id + row.description}
+									sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }}>
+									<TableCell component="th" scope="row">
+										{row.id}
+									</TableCell>
+									<TableCell align="left">{row.firstName}</TableCell>
+									<TableCell align="left">{row.lastName}</TableCell>
+									<TableCell align="left">{row.email}</TableCell>
+									<TableCell align="left">{row.phone}</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+					<TablePaginationComponent
+						currentData={currentData}
+						changePage={changePage}
+						currentPage={currentPage}
+					/>
+				</TableContainer>
+				<TableFilter changeData={changeData} />
+			</TableWrapper>
+			{rowInfoSelected && <TableInfoBox  rowInfo={rowInfoSelected} />}
+		</>
 	);
 });
 
