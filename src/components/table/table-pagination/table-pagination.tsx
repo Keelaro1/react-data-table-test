@@ -1,21 +1,22 @@
 import { Pagination, Popover, TextField } from '@mui/material';
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AppContext } from '../../../App';
-import { ENTRIES_PER_PAGE } from '../../../model/table.model';
+import { ENTRIES_PER_PAGE, TableData } from '../../../model/table.model';
 import { DEFAULT_START_PAGE } from '../table';
 
 interface TablePaginationComponentProps {
 	readonly changePage: (page: number) => void;
 	readonly currentPage: number;
+	readonly currentData: TableData[];
 }
 
 export const TablePaginationComponent = memo((props: TablePaginationComponentProps) => {
-	const { changePage, currentPage } = props;
+	const { changePage, currentPage, currentData } = props;
 	const { data } = useContext(AppContext);
 	const [showPageSelector, setShowSelector] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<any | null>(null);
 
-	const pages = useMemo(() => Math.ceil(data.length / ENTRIES_PER_PAGE), [data]);
+	const pages = useMemo(() => Math.ceil(currentData.length / ENTRIES_PER_PAGE), [currentData]);
 
 	// reset the page if data is fetched again
 	useEffect(() => changePage(DEFAULT_START_PAGE), [data, changePage]);
@@ -76,7 +77,8 @@ export const TablePaginationComponent = memo((props: TablePaginationComponentPro
 					placeholder="Choose a page"
 					type={'number'}
 					onKeyUp={onPageSelectorHandler}
-					inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}></TextField>
+					inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+				/>
 			</Popover>
 		</>
 	);

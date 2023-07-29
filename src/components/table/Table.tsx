@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useState } from 'react';
 import { MainTableComponent } from './main-table';
-import { TablePaginationComponent } from './table-pagination/table-pagination';
 
 export const DEFAULT_START_PAGE = 0;
 
@@ -10,8 +9,7 @@ export const TableComponent = memo(() => {
 
 	return (
 		<>
-			<MainTableComponent currentPage={currentPage} />
-			<TablePaginationComponent changePage={changePage} currentPage={currentPage} />
+			<MainTableComponent currentPage={currentPage} changePage={changePage} />
 		</>
 	);
 });
