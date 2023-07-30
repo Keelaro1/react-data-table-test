@@ -4,10 +4,12 @@ import { AppContext } from '../../App';
 import { ENTRIES_PER_PAGE, TableData } from '../../model/table.model';
 import { SortingOrder, sortArrayOfObjects } from '../../helpers/sorting-function';
 import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
-import { TableFilter } from './table-filter/table-filter';
+import { TableFilter } from './components/table-filter/table-filter';
 import { TableWrapper } from './table.styled';
-import { TablePaginationComponent } from './table-pagination/table-pagination';
-import { TableInfoBox } from './table-info-box';
+import { TablePaginationComponent } from './components/table-pagination/table-pagination';
+import { TableInfoBox } from './components/table-info-box/table-info-box';
+import { TableAddNewRow } from './components/table-add-new-row/table-add-new-row';
+import { create_UUID } from '../../helpers/uuid';
 
 interface MainTableComponentProps {
 	readonly currentPage: number;
@@ -29,7 +31,10 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 		[data],
 	);
 
-	useEffect(() => setCurrentData(data), [data]);
+	useEffect(() => {
+		setCurrentData(data);
+		setRowInfoSelected(null);
+	}, [data]);
 
 	const dataToShow = useMemo(() => {
 		const start = currentPage * ENTRIES_PER_PAGE;
@@ -57,6 +62,7 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 
 	return (
 		<>
+			<TableAddNewRow headers={headers} changeData={changeData} currentData={currentData} />
 			<TableWrapper>
 				<TableContainer sx={{ maxWidth: 800 }} component={Paper}>
 					<Table aria-label="simple table">
@@ -94,7 +100,7 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 							{dataToShow.map(row => (
 								<TableRow
 									onClick={() => onTableRowClickHandler(row)}
-									key={row.id + row.description}
+									key={create_UUID()}
 									sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: 'pointer' }}>
 									<TableCell component="th" scope="row">
 										{row.id}
@@ -115,7 +121,7 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 				</TableContainer>
 				<TableFilter changeData={changeData} />
 			</TableWrapper>
-			{rowInfoSelected && <TableInfoBox  rowInfo={rowInfoSelected} />}
+			{rowInfoSelected && <TableInfoBox rowInfo={rowInfoSelected} />}
 		</>
 	);
 });

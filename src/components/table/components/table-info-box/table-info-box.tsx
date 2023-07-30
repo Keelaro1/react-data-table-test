@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
-import { TableInfoBoxStyled } from './table.styled';
-import { TableData } from '../../model/table.model';
+import { TableInfoBoxStyled } from '../../table.styled';
+import { TableData } from '../../../../model/table.model';
 
 interface TableInfoBoxProps {
 	readonly rowInfo: TableData;
@@ -36,13 +36,3 @@ export const TableInfoBox = memo((props: TableInfoBoxProps) => {
 });
 
 TableInfoBox.displayName = 'TableInfoBox';
-
-// Выбран пользователь <b>Sue Corson</b>
-// Описание:
-// <textarea>
-// et lacus magna dolor...
-// </textarea>
-// Адрес проживания: <b>9792 Mattis Ct</b>
-// Город: <b>Waukesha</b>
-// Провинция/штат: <b>WI</b>
-// Индекс: <b>22178</b>

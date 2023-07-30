@@ -1,8 +1,8 @@
 import { Pagination, Popover, TextField } from '@mui/material';
 import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { AppContext } from '../../../App';
-import { ENTRIES_PER_PAGE, TableData } from '../../../model/table.model';
-import { DEFAULT_START_PAGE } from '../table';
+import { AppContext } from '../../../../App';
+import { ENTRIES_PER_PAGE, TableData } from '../../../../model/table.model';
+import { DEFAULT_START_PAGE } from '../../table';
 
 interface TablePaginationComponentProps {
 	readonly changePage: (page: number) => void;

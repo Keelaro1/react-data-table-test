@@ -16,3 +16,9 @@ interface TableDataAddress {
 	readonly state: string;
 	readonly zip: string;
 }
+
+export interface TableNewRowInputValue extends Omit<TableData, 'id'> {
+	id: string;
+}
+
+export type TableNewRowHeader = keyof TableNewRowInputValue;

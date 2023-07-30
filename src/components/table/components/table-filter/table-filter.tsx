@@ -1,7 +1,7 @@
 import { Button, Input, Container } from '@mui/material';
 import React, { memo, useCallback, useContext, useState } from 'react';
-import { TableData } from '../../../model/table.model';
-import { AppContext } from '../../../App';
+import { TableData } from '../../../../model/table.model';
+import { AppContext } from '../../../../App';
 
 interface TableFilterProps {
 	readonly changeData: (data: TableData[]) => void;
@@ -32,7 +32,7 @@ export const TableFilter = memo((props: TableFilterProps) => {
 		setInputValue('');
 	}, [changeData, inputValue, data]);
 
-	const onChangeHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value), []);
+	const onInputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value), []);
 
 	const onFilterKeyUpHandler = useCallback(
 		(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -46,7 +46,7 @@ export const TableFilter = memo((props: TableFilterProps) => {
 
 	return (
 		<Container maxWidth="sm" sx={{ marginLeft: '0' }}>
-			<Input onKeyUp={onFilterKeyUpHandler} onChange={onChangeHandler} value={inputValue} />
+			<Input onKeyUp={onFilterKeyUpHandler} onInput={onInputHandler} value={inputValue} />
 			<Button onClick={onTableFilterHandler}>Filter</Button>
 		</Container>
 	);
