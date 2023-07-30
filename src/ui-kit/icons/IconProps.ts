@@ -1,8 +1,8 @@
 export interface IconProps {
-	fill?: string;
-	stroke?: string;
-	height?: string;
-	width?: string;
-	transform?: string;
-	style?: any;
+	readonly fill?: string;
+	readonly stroke?: string;
+	readonly height?: string;
+	readonly width?: string;
+	readonly transform?: string;
+	readonly style?: any;
 }

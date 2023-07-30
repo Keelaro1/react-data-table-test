@@ -119,7 +119,13 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 						currentPage={currentPage}
 					/>
 				</TableContainer>
-				<TableFilter changeData={changeData} />
+				<TableFilter
+					changeData={changeData}
+					resetAfterFilter={() => {
+						setCurrentSortingHeader(null);
+						setRowInfoSelected(null);
+					}}
+				/>
 			</TableWrapper>
 			{rowInfoSelected && <TableInfoBox rowInfo={rowInfoSelected} />}
 		</>

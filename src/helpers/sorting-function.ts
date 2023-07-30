@@ -22,8 +22,6 @@ export function sortArrayOfObjects<T>(array: Array<T>, propertyName: string, ord
 	if (order === 'descending') {
 		return sortedArr.reverse();
 	}
-
-	console.log(sortedArr);
-
+	
 	return sortedArr;
 }

@@ -5,14 +5,20 @@ import { AppContext } from '../../../../App';
 
 interface TableFilterProps {
 	readonly changeData: (data: TableData[]) => void;
+	readonly resetAfterFilter: () => void;
 }
 
+/**
+ * Filter won't show (and also remove) added via new row button data because it's not added to the "backend" data
+ * and we also can't use "frontend" data (currentData object) as a data source since it will filter itself
+ */
 export const TableFilter = memo((props: TableFilterProps) => {
+	const { changeData, resetAfterFilter } = props;
+
 	const [inputValue, setInputValue] = useState<string>('');
 	const { data } = useContext(AppContext);
-
-	const { changeData } = props;
 	const onTableFilterHandler = useCallback(() => {
+		resetAfterFilter();
 		if (!inputValue) {
 			changeData(data);
 			return;
@@ -30,7 +36,7 @@ export const TableFilter = memo((props: TableFilterProps) => {
 		});
 		changeData(filteredData);
 		setInputValue('');
-	}, [changeData, inputValue, data]);
+	}, [changeData, inputValue, data, resetAfterFilter]);
 
 	const onInputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value), []);
 
