@@ -21,6 +21,7 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 	const { currentPage, changePage } = props;
 
 	const [currentData, setCurrentData] = useState<TableData[]>(data);
+	const [filteredData, setFilteredData] = useState<TableData[] | null>(null);
 	const [currentSortingHeader, setCurrentSortingHeader] = useState<string | null>(null);
 	const [currentSortingOrder, setCurrentSortingOrder] = useState<string | null>(null);
 
@@ -36,11 +37,16 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 		setRowInfoSelected(null);
 	}, [data]);
 
+	useEffect(() => {
+		setFilteredData(currentData);
+	}, [currentData]);
+
 	const dataToShow = useMemo(() => {
 		const start = currentPage * ENTRIES_PER_PAGE;
 		const end = start + ENTRIES_PER_PAGE;
-		return currentData.slice(start, end);
-	}, [currentPage, currentData]);
+		const data = filteredData ? [...filteredData] : [...currentData];
+		return data.slice(start, end);
+	}, [currentPage, currentData, filteredData]);
 
 	const onHeaderClickSortingHandler = useCallback(
 		(header: string) => {
@@ -48,15 +54,20 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 			if (currentSortingHeader === header && currentSortingOrder === SortingOrder.ASCENDING) {
 				sortingOrder = SortingOrder.DESCENDING;
 			}
-			const newData = sortArrayOfObjects([...currentData], header, sortingOrder);
+			const newData = sortArrayOfObjects(
+				filteredData ? [...filteredData] : [...currentData],
+				header,
+				sortingOrder,
+			);
 			setCurrentSortingOrder(sortingOrder);
 			setCurrentSortingHeader(header);
-			setCurrentData(newData);
+			setFilteredData(newData);
 		},
-		[currentData, currentSortingHeader, currentSortingOrder],
+		[filteredData, currentSortingHeader, currentSortingOrder, currentData],
 	);
 
 	const changeData = useCallback((data: TableData[]) => setCurrentData(data), []);
+	const setFilteredDataHandler = useCallback((data: TableData[]) => setFilteredData(data), []);
 
 	const onTableRowClickHandler = useCallback((row: TableData) => setRowInfoSelected(row), []);
 
@@ -65,7 +76,8 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 			<TableHeader>
 				<TableAddNewRow headers={headers} changeData={changeData} currentData={currentData} />
 				<TableFilter
-					changeData={changeData}
+					currentData={currentData}
+					changeData={setFilteredDataHandler}
 					resetAfterFilter={() => {
 						setCurrentSortingHeader(null);
 						setRowInfoSelected(null);
@@ -123,7 +135,7 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 						</TableBody>
 					</Table>
 					<TablePaginationComponent
-						currentData={currentData}
+						currentData={filteredData ?? currentData}
 						changePage={changePage}
 						currentPage={currentPage}
 					/>
