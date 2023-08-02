@@ -5,7 +5,7 @@ import { ENTRIES_PER_PAGE, TableData } from '../../model/table.model';
 import { SortingOrder, sortArrayOfObjects } from '../../helpers/sorting-function';
 import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
 import { TableFilter } from './components/table-filter/table-filter';
-import { TableWrapper } from './table.styled';
+import { TableContentContainer, TableHeader, TableWrapper } from './table.styled';
 import { TablePaginationComponent } from './components/table-pagination/table-pagination';
 import { TableInfoBox } from './components/table-info-box/table-info-box';
 import { TableAddNewRow } from './components/table-add-new-row/table-add-new-row';
@@ -61,8 +61,17 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 	const onTableRowClickHandler = useCallback((row: TableData) => setRowInfoSelected(row), []);
 
 	return (
-		<>
-			<TableAddNewRow headers={headers} changeData={changeData} currentData={currentData} />
+		<TableContentContainer>
+			<TableHeader>
+				<TableAddNewRow headers={headers} changeData={changeData} currentData={currentData} />
+				<TableFilter
+					changeData={changeData}
+					resetAfterFilter={() => {
+						setCurrentSortingHeader(null);
+						setRowInfoSelected(null);
+					}}
+				/>
+			</TableHeader>
 			<TableWrapper>
 				<TableContainer sx={{ maxWidth: 800 }} component={Paper}>
 					<Table aria-label="simple table">
@@ -119,16 +128,9 @@ export const MainTableComponent = memo((props: MainTableComponentProps) => {
 						currentPage={currentPage}
 					/>
 				</TableContainer>
-				<TableFilter
-					changeData={changeData}
-					resetAfterFilter={() => {
-						setCurrentSortingHeader(null);
-						setRowInfoSelected(null);
-					}}
-				/>
 			</TableWrapper>
 			{rowInfoSelected && <TableInfoBox rowInfo={rowInfoSelected} />}
-		</>
+		</TableContentContainer>
 	);
 });
 

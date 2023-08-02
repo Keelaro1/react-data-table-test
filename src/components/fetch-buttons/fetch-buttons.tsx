@@ -2,7 +2,6 @@ import React, { memo, useCallback, useRef, useState } from 'react';
 import { TableData } from '../../model/table.model';
 import {
 	Button,
-	ButtonGroup,
 	CircularProgress,
 	ClickAwayListener,
 	Grow,
@@ -12,7 +11,7 @@ import {
 	Popper,
 } from '@mui/material';
 import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
-import { FetchButtonStyled } from './fetch-buttons.styled';
+import { FetchButtonGroupStyled, FetchButtonStyled } from './fetch-buttons.styled';
 
 interface FetchButtonsComponentProps {
 	readonly loadData: (data: TableData[]) => void;
@@ -66,7 +65,7 @@ export const FetchButtonsComponent = memo((props: FetchButtonsComponentProps) =>
 
 	return (
 		<>
-			<ButtonGroup disabled={isFetching} variant="contained" ref={anchorRef} aria-label="split button">
+			<FetchButtonGroupStyled disabled={isFetching} variant="contained" ref={anchorRef} aria-label="split button">
 				<FetchButtonStyled onClick={handleClick}>
 					{isFetching ? <CircularProgress size={20} /> : options[selectedIndex]}
 				</FetchButtonStyled>
@@ -79,7 +78,7 @@ export const FetchButtonsComponent = memo((props: FetchButtonsComponentProps) =>
 					onClick={handleToggle}>
 					<ArrowIcon height="24px" width="24px" />
 				</Button>
-			</ButtonGroup>
+			</FetchButtonGroupStyled>
 			<Popper
 				sx={{
 					zIndex: 1,

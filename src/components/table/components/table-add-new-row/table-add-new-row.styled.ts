@@ -6,6 +6,9 @@ export const TableAddNewRowButtonStyled = styled(Button)`
 	&:hover {
 		background: #1565c0;
 	}
+	@media (max-width: 630px) {
+		font-size: 12px;
+	}
 `;
 
 export const TableModalContainerStyled = styled(Box)`
@@ -17,4 +20,5 @@ export const TableModalContainerStyled = styled(Box)`
 	border: 2px solid #000;
 	background: #1976d2;
 	color: #fff;
+	max-width: 80%;
 `;

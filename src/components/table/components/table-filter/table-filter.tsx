@@ -1,17 +1,14 @@
-import { Button, Input, Container } from '@mui/material';
+import { Button, Input } from '@mui/material';
 import React, { memo, useCallback, useContext, useState } from 'react';
 import { TableData } from '../../../../model/table.model';
 import { AppContext } from '../../../../App';
+import { FilterContainerStyled } from './table-filter.styled';
 
 interface TableFilterProps {
 	readonly changeData: (data: TableData[]) => void;
 	readonly resetAfterFilter: () => void;
 }
 
-/**
- * Filter won't show (and also remove) added via new row button data because it's not added to the "backend" data
- * and we also can't use "frontend" data (currentData object) as a data source since it will filter itself
- */
 export const TableFilter = memo((props: TableFilterProps) => {
 	const { changeData, resetAfterFilter } = props;
 
@@ -51,10 +48,10 @@ export const TableFilter = memo((props: TableFilterProps) => {
 	);
 
 	return (
-		<Container maxWidth="sm" sx={{ marginLeft: '0' }}>
+		<FilterContainerStyled>
 			<Input onKeyUp={onFilterKeyUpHandler} onInput={onInputHandler} value={inputValue} />
 			<Button onClick={onTableFilterHandler}>Filter</Button>
-		</Container>
+		</FilterContainerStyled>
 	);
 });
 
