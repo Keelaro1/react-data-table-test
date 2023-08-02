@@ -1,6 +1,6 @@
 import { Button, Input } from '@mui/material';
 import React, { memo, useCallback, useState } from 'react';
-import { TableData } from '../../../../model/table.model';
+import { TableData } from '../../../../../model/table.model';
 import { FilterContainerStyled } from './table-filter.styled';
 
 interface TableFilterProps {
@@ -31,7 +31,6 @@ export const TableFilter = memo((props: TableFilterProps) => {
 			});
 			return isFoundRowMatch && tableItem;
 		});
-		console.log(filteredData);
 		if (filteredData.length === 0) {
 			changeData(filteredData);
 			setInputValue('');

@@ -1,8 +1,7 @@
 import React, { memo } from 'react';
-import { TableInfoBoxStyled } from '../../table.styled';
 import { TableData } from '../../../../model/table.model';
 import { Card } from '@mui/material';
-import { TableInfoBoxDescriptionStyled, TableInfoBoxItemStyled } from './table-info-box.styled';
+import { TableInfoBoxDescriptionStyled, TableInfoBoxItemStyled, TableInfoBoxStyled } from './table-info-box.styled';
 
 interface TableInfoBoxProps {
 	readonly rowInfo: TableData;

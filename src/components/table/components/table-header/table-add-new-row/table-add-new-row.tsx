@@ -12,7 +12,7 @@ import {
 	TableHead,
 	TableRow,
 } from '@mui/material';
-import { TableNewRowHeader, TableNewRowInputValue, TableData } from '../../../../model/table.model';
+import { TableNewRowHeader, TableNewRowInputValue, TableData } from '../../../../../model/table.model';
 import { INITIAL_INPUT_VALUES, useValidateAddRow } from './useValidateAddRow';
 
 interface TableAddNewRowProps {
@@ -23,7 +23,7 @@ interface TableAddNewRowProps {
 
 export const TableAddNewRow = memo((props: TableAddNewRowProps) => {
 	const { headers, changeData, currentData } = props;
-	const typedHeaders: TableNewRowHeader[] = [...headers] as TableNewRowHeader[];
+	const typedHeaders = [...headers] as TableNewRowHeader[];
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const { onInput, inputValues, noValidationErrors, clearInputs } = useValidateAddRow();

@@ -17,6 +17,13 @@ interface TableDataAddress {
 	readonly zip: string;
 }
 
+export const fetchOptions = ['Download small amount of data', 'Download big amount of data'];
+
+export enum FetchDataOption {
+	SMALL = 0,
+	BIG = 1,
+}
+
 export interface TableNewRowInputValue extends Omit<TableData, 'id'> {
 	readonly id: string;
 }

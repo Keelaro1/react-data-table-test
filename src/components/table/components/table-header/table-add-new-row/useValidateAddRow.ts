@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from 'react';
-import { TableNewRowHeader, TableNewRowInputValue } from '../../../../model/table.model';
+import { TableNewRowHeader, TableNewRowInputValue } from '../../../../../model/table.model';
 
 export const INITIAL_INPUT_VALUES = {
 	id: '',
