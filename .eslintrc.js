@@ -19,6 +19,14 @@ module.exports = {
 			version: 'detect',
 		},
 	},
+	overrides: [
+		{
+			files: ['**/*.test.js', '**/*.test.jsx'],
+			env: {
+				jest: true,
+			},
+		},
+	],
 	plugins: ['@typescript-eslint', 'react', 'unused-imports', 'react-hooks'],
 	rules: {
 		quotes: ['error', 'single'],

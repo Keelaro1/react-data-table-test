@@ -24,7 +24,6 @@ export const TableComponent = memo((props: TableComponentProps) => {
 	const [filteredData, setFilteredData] = useState<TableData[] | null>(null);
 	const [currentSortingHeader, setCurrentSortingHeader] = useState<string | null>(null);
 	const [currentSortingOrder, setCurrentSortingOrder] = useState<string | null>(null);
-
 	const [rowInfoSelected, setRowInfoSelected] = useState<TableData | null>(null);
 
 	const headers = useMemo(
@@ -32,10 +31,13 @@ export const TableComponent = memo((props: TableComponentProps) => {
 		[initialData],
 	);
 
+	// reset state if fetched again
 	useEffect(() => {
 		setCurrentData(initialData);
 		setRowInfoSelected(null);
-	}, [initialData]);
+		changePage(DEFAULT_START_PAGE);
+		setCurrentSortingHeader(null);
+	}, [initialData, changePage]);
 
 	useEffect(() => {
 		setFilteredData(currentData);
@@ -76,7 +78,7 @@ export const TableComponent = memo((props: TableComponentProps) => {
 
 	const onTableRowClickHandler = useCallback((row: TableData) => setRowInfoSelected(row), []);
 
-	const TableArrowIcon = (
+	const TableSortArrowIcon = (
 		<ArrowIcon
 			height="24px"
 			width="24px"
@@ -112,7 +114,7 @@ export const TableComponent = memo((props: TableComponentProps) => {
 										key={header}
 										align="left">
 										{header}
-										{header === currentSortingHeader && TableArrowIcon}
+										{header === currentSortingHeader && TableSortArrowIcon}
 									</TableCell>
 								))}
 							</TableRow>
@@ -138,7 +140,6 @@ export const TableComponent = memo((props: TableComponentProps) => {
 						currentData={filteredData ?? currentData}
 						changePage={changePage}
 						currentPage={currentPage}
-						initialData={initialData}
 					/>
 				</TableContainer>
 			</TableContent>

@@ -16,7 +16,6 @@ export const TableFilter = memo((props: TableFilterProps) => {
 
 	const [inputValue, setInputValue] = useState<string>('');
 	const onTableFilterHandler = useCallback(() => {
-		resetAfterFilter();
 		if (!inputValue) {
 			changeData(currentData);
 			return;
@@ -41,7 +40,8 @@ export const TableFilter = memo((props: TableFilterProps) => {
 		}
 		changeData(filteredData);
 		setInputValue('');
-	}, [changeData, inputValue, currentData, resetAfterFilter]);
+		resetAfterFilter();
+	}, [changeData, inputValue, currentData, resetAfterFilter, changePage]);
 
 	const onInputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value), []);
 
