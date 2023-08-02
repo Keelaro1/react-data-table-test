@@ -1,25 +1,24 @@
 import { Pagination, Popover, TextField } from '@mui/material';
-import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { AppContext } from '../../../../App';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { ENTRIES_PER_PAGE, TableData } from '../../../../model/table.model';
 import { DEFAULT_START_PAGE } from '../../table';
 
 interface TablePaginationComponentProps {
+	readonly initialData: TableData[];
 	readonly changePage: (page: number) => void;
 	readonly currentPage: number;
 	readonly currentData: TableData[];
 }
 
 export const TablePaginationComponent = memo((props: TablePaginationComponentProps) => {
-	const { changePage, currentPage, currentData } = props;
-	const { data } = useContext(AppContext);
+	const { changePage, currentPage, currentData, initialData } = props;
 	const [showPageSelector, setShowSelector] = useState<boolean>(false);
 	const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
 	const pages = useMemo(() => Math.ceil(currentData.length / ENTRIES_PER_PAGE), [currentData]);
 
 	// reset the page if data is fetched again
-	useEffect(() => changePage(DEFAULT_START_PAGE), [data, changePage]);
+	useEffect(() => changePage(DEFAULT_START_PAGE), [initialData, changePage]);
 
 	const changePageHandler = useCallback(
 		(_: React.ChangeEvent<unknown>, value: number) => changePage(value - 1),

@@ -1,6 +1,5 @@
-import React, { memo, useContext, useMemo, useCallback, useState, useEffect } from 'react';
+import React, { memo, useMemo, useCallback, useState, useEffect } from 'react';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
-import { AppContext } from '../../App';
 import { ENTRIES_PER_PAGE, TableData } from '../../model/table.model';
 import { SortingOrder, sortArrayOfObjects } from '../../helpers/sorting-function';
 import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
@@ -10,14 +9,18 @@ import { TableInfoBox } from './components/table-info-box/table-info-box';
 import { create_UUID } from '../../helpers/uuid';
 import { TableHeader } from './components/table-header/table-header';
 
+interface TableComponentProps {
+	initialData: TableData[];
+}
+
 export const DEFAULT_START_PAGE = 0;
 
-export const TableComponent = memo(() => {
-	const { data } = useContext(AppContext);
+export const TableComponent = memo((props: TableComponentProps) => {
+	const { initialData } = props;
 	const [currentPage, setCurrentPage] = useState<number>(DEFAULT_START_PAGE);
 	const changePage = useCallback((page: number) => setCurrentPage(page), []);
 
-	const [currentData, setCurrentData] = useState<TableData[]>(data);
+	const [currentData, setCurrentData] = useState<TableData[]>(initialData);
 	const [filteredData, setFilteredData] = useState<TableData[] | null>(null);
 	const [currentSortingHeader, setCurrentSortingHeader] = useState<string | null>(null);
 	const [currentSortingOrder, setCurrentSortingOrder] = useState<string | null>(null);
@@ -25,14 +28,14 @@ export const TableComponent = memo(() => {
 	const [rowInfoSelected, setRowInfoSelected] = useState<TableData | null>(null);
 
 	const headers = useMemo(
-		() => Object.keys((({ description: _, address: __, ...rest }) => ({ ...rest }))(data[0])),
-		[data],
+		() => Object.keys((({ description: _, address: __, ...rest }) => ({ ...rest }))(initialData[0])),
+		[initialData],
 	);
 
 	useEffect(() => {
-		setCurrentData(data);
+		setCurrentData(initialData);
 		setRowInfoSelected(null);
-	}, [data]);
+	}, [initialData]);
 
 	useEffect(() => {
 		setFilteredData(currentData);
@@ -94,6 +97,7 @@ export const TableComponent = memo(() => {
 				changeData={changeData}
 				currentData={currentData}
 				resetAfterFilter={resetAfterFilter}
+				changePage={changePage}
 			/>
 			<TableContent>
 				<TableContainer sx={{ maxWidth: 800 }} component={Paper}>
@@ -134,6 +138,7 @@ export const TableComponent = memo(() => {
 						currentData={filteredData ?? currentData}
 						changePage={changePage}
 						currentPage={currentPage}
+						initialData={initialData}
 					/>
 				</TableContainer>
 			</TableContent>

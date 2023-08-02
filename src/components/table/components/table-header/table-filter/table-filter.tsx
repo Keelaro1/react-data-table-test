@@ -2,15 +2,17 @@ import { Button, Input } from '@mui/material';
 import React, { memo, useCallback, useState } from 'react';
 import { TableData } from '../../../../../model/table.model';
 import { FilterContainerStyled } from './table-filter.styled';
+import { DEFAULT_START_PAGE } from '../../../table';
 
 interface TableFilterProps {
 	readonly changeData: (data: TableData[]) => void;
 	readonly resetAfterFilter: () => void;
 	readonly currentData: TableData[];
+	readonly changePage: (page: number) => void;
 }
 
 export const TableFilter = memo((props: TableFilterProps) => {
-	const { currentData, changeData, resetAfterFilter } = props;
+	const { currentData, changeData, resetAfterFilter, changePage } = props;
 
 	const [inputValue, setInputValue] = useState<string>('');
 	const onTableFilterHandler = useCallback(() => {
@@ -29,6 +31,7 @@ export const TableFilter = memo((props: TableFilterProps) => {
 					isFoundRowMatch = true;
 				}
 			});
+			changePage(DEFAULT_START_PAGE);
 			return isFoundRowMatch && tableItem;
 		});
 		if (filteredData.length === 0) {

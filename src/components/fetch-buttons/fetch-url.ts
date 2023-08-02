@@ -1,4 +1,4 @@
-import { FetchDataOption } from '../model/table.model';
+import { FetchDataOption } from '../../model/table.model';
 
 export const getFullUrl = (selectedIndex: number) => {
 	const url = 'http://www.filltext.com/';

@@ -4,17 +4,18 @@ import { Button, CircularProgress } from '@mui/material';
 import { ArrowIcon } from '../../ui-kit/icons/ArrowIcon';
 import { FetchButtonGroupStyled, FetchButtonStyled } from './fetch-buttons.styled';
 import { FetchButtonsPopover } from './fetch-buttons-popover/fetch-buttons-popover';
-import { getFullUrl } from '../../helpers/fetch-url';
+import { getFullUrl } from './fetch-url';
 
 interface FetchButtonsProps {
-	readonly fetchData: (data: TableData[]) => void;
+	readonly setData: (data: TableData[]) => void;
 }
 
 export const FetchButtons = memo((props: FetchButtonsProps) => {
-	const { fetchData } = props;
+	const { setData } = props;
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [selectedIndex, setSelectedIndex] = useState<number>(0);
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -28,15 +29,20 @@ export const FetchButtons = memo((props: FetchButtonsProps) => {
 		const fullUrl = getFullUrl(selectedIndex);
 		if (fullUrl) {
 			setIsFetching(true);
-			fetch(fullUrl).then(response =>
-				response
-					.json()
-					.then(fetchData)
-					.finally(() => setIsFetching(false))
-					.catch(console.log),
-			);
+			fetch(fullUrl)
+				.then(response =>
+					response.json().then(data => {
+						setData(data);
+						setIsError(false);
+					}),
+				)
+				.catch(e => {
+					console.log(e);
+					setIsError(true);
+				})
+				.finally(() => setIsFetching(false));
 		}
-	}, [selectedIndex, fetchData]);
+	}, [selectedIndex, setData]);
 
 	const handleToggle = useCallback(() => {
 		setIsPopoverOpen(prev => !prev);
@@ -46,7 +52,13 @@ export const FetchButtons = memo((props: FetchButtonsProps) => {
 		<>
 			<FetchButtonGroupStyled disabled={isFetching} variant="contained" ref={anchorRef} aria-label="split button">
 				<FetchButtonStyled onClick={handleClick}>
-					{isFetching ? <CircularProgress size={20} /> : fetchOptions[selectedIndex]}
+					{isFetching ? (
+						<CircularProgress size={20} />
+					) : isError ? (
+						<span>An error occured, press to try again</span>
+					) : (
+						fetchOptions[selectedIndex]
+					)}
 				</FetchButtonStyled>
 				<Button
 					size="small"

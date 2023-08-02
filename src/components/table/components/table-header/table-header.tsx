@@ -10,14 +10,20 @@ interface TableHeaderProps {
 	readonly changeFilterData: (data: TableData[]) => void;
 	readonly currentData: TableData[];
 	readonly resetAfterFilter: () => void;
+	readonly changePage: (page: number) => void;
 }
 
 export const TableHeader = memo((props: TableHeaderProps) => {
-	const { headers, currentData, changeData, changeFilterData, resetAfterFilter } = props;
+	const { headers, currentData, changeData, changeFilterData, resetAfterFilter, changePage } = props;
 	return (
 		<TableHeaderStyled>
 			<TableAddNewRow headers={headers} changeData={changeData} currentData={currentData} />
-			<TableFilter currentData={currentData} changeData={changeFilterData} resetAfterFilter={resetAfterFilter} />
+			<TableFilter
+				currentData={currentData}
+				changeData={changeFilterData}
+				resetAfterFilter={resetAfterFilter}
+				changePage={changePage}
+			/>
 		</TableHeaderStyled>
 	);
 });
