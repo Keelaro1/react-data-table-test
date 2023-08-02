@@ -11,6 +11,14 @@ export const INITIAL_INPUT_VALUES = {
 	description: '',
 };
 
+const INITIAL_VALIDATION_ERRORS = {
+	id: false,
+	firstName: false,
+	lastName: false,
+	email: false,
+	phone: false,
+};
+
 interface ValidationErrors {
 	readonly id: boolean;
 	readonly firstName: boolean;
@@ -21,13 +29,7 @@ interface ValidationErrors {
 
 export const useValidateAddRow = () => {
 	const [inputValues, setInputValues] = useState<TableNewRowInputValue>(INITIAL_INPUT_VALUES);
-	const [validationErrors, setValidationErrors] = useState<ValidationErrors>({
-		id: false,
-		firstName: false,
-		lastName: false,
-		email: false,
-		phone: false,
-	});
+	const [validationErrors, setValidationErrors] = useState<ValidationErrors>(INITIAL_VALIDATION_ERRORS);
 
 	const validateInputs = useCallback(
 		(name: keyof TableNewRowInputValue, value: any) => {
@@ -74,7 +76,10 @@ export const useValidateAddRow = () => {
 		[inputValues, validateInputs],
 	);
 
-	const clearInputs = useCallback(() => setInputValues(INITIAL_INPUT_VALUES), []);
+	const clearInputs = useCallback(() => {
+		setInputValues(INITIAL_INPUT_VALUES);
+		setValidationErrors(INITIAL_VALIDATION_ERRORS);
+	}, []);
 
 	const noValidationErrors = useMemo(() => Object.values(validationErrors).every(x => x), [validationErrors]);
 
