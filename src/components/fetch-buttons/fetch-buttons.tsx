@@ -37,7 +37,7 @@ export const FetchButtons = memo((props: FetchButtonsProps) => {
 					}),
 				)
 				.catch(e => {
-					console.log(e);
+					console.log('error', e);
 					setIsError(true);
 				})
 				.finally(() => setIsFetching(false));
