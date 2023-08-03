@@ -8,11 +8,12 @@ Docker image link: https://hub.docker.com/repository/docker/keelaro1/reacttable/
 
 # Usage
 
-## dev
+## Development
 
+yarn install
 yarn start
 
-## prod
+## Production
 
 docker pull keelaro1/reacttable\
 docker run -d -p 3000:80 --rm --name reacttable-c keelaro1/reacttable\
