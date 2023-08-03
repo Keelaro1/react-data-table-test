@@ -14,6 +14,6 @@ yarn start
 
 ## prod
 
-docker pull keelaro1/reacttable
-docker run -d -p 3000:80 --rm --name reacttable-c keelaro1/reacttable
+docker pull keelaro1/reacttable\
+docker run -d -p 3000:80 --rm --name reacttable-c keelaro1/reacttable\
 open browser at port 3000
