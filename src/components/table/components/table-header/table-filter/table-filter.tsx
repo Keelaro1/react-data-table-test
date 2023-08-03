@@ -2,7 +2,7 @@ import { Button, Input } from '@mui/material';
 import React, { memo, useCallback, useState } from 'react';
 import { TableData } from '../../../../../model/table.model';
 import { FilterContainerStyled } from './table-filter.styled';
-import { DEFAULT_START_PAGE } from '../../../table';
+import { DEFAULT_START_PAGE } from '../../../table-component';
 
 interface TableFilterProps {
 	readonly changeData: (data: TableData[]) => void;

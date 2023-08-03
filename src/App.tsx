@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useState } from 'react';
 import { TableData } from './model/table.model';
 import { FetchButtons } from './components/fetch-buttons/fetch-buttons';
-import { TableComponent } from './components/table/table';
+import { TableComponent } from './components/table/table-component';
 
 export const App = memo(() => {
 	const [data, setData] = useState<TableData[]>([]);
