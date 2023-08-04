@@ -10,7 +10,7 @@ Docker image link: https://hub.docker.com/repository/docker/keelaro1/reacttable/
 
 ## Development
 
-yarn install
+yarn install\
 yarn start
 
 ## Production
